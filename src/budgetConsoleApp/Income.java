@@ -3,15 +3,8 @@ package budgetConsoleApp;
 import java.util.Scanner;
 
 public class Income extends Transaction {
-	private String typeOfTransaction;
-	private int date;
-	private int month;
-	private int year;
-	private double amount;
-	private String description;
-	
 	public Income(Scanner sc, String typeOfTransaction) {
-		this.typeOfTransaction = typeOfTransaction;
+		this.setTypeOfTransaction(typeOfTransaction);
 		// sets year to be of format XXXX
 		int maxDigitsOfYear = 4;
 		// sets date and month to be of format XX
@@ -21,11 +14,11 @@ public class Income extends Transaction {
 		while (this.getYear() == 0) {
 			try {
 				System.out.println("Please enter year: ");
-				this.year = Integer.parseInt(sc.nextLine());
+				this.setYear(Integer.parseInt(sc.nextLine()));
 				int lenght = String.valueOf(getYear()).length();
 				// checks if year value is of correct format
 				if (lenght != maxDigitsOfYear) {
-					this.year = 0;
+					this.setYear(0);;
 					System.out.println("Invalid input! Try again!");
 					continue;
 				}
@@ -48,17 +41,17 @@ public class Income extends Transaction {
 		while (this.getMonth() == 0) {
 			try {
 				System.out.println("Please enter month: ");
-				this.month = Integer.parseInt(sc.nextLine());
+				this.setMonth(Integer.parseInt(sc.nextLine()));
 				int lenght = String.valueOf(getMonth()).length();
 				// checks if month value is of correct format
 				if (lenght > maxDigitsOfDateAndMonth) {
-					this.month = 0;
+					this.setMonth(0);
 					System.out.println("Invalid input! Try again!");
 					continue;
 				}
 				// checks if month value is valid
 				if (getMonth() > 12) {
-					this.month = 0;
+					this.setMonth(0);
 					System.out.println("Invalid input! Try again!");
 					continue;
 				}
@@ -69,11 +62,11 @@ public class Income extends Transaction {
 		while (this.getDate() == 0) {
 			try {
 				System.out.println("Please enter day: ");
-				this.date = Integer.parseInt(sc.nextLine());
+				this.setDate(Integer.parseInt(sc.nextLine()));
 				int lenght = String.valueOf(getDate()).length();
 				// checks if month value is of correct format
 				if (lenght > maxDigitsOfDateAndMonth) {
-					this.date = 0;
+					this.setDate(0);
 					System.out.println("Invalid input! Try again!");
 					continue;
 				}
@@ -83,7 +76,7 @@ public class Income extends Transaction {
 				if ((currentMonth == 1 || currentMonth == 3 || currentMonth == 5 
 				  || currentMonth == 7 || currentMonth == 8 || currentMonth == 10
 				  || currentMonth == 12) && currentDate > 31) {
-					this.date = 0;
+					this.setDate(0);
 					System.out.println("Invalid input! Try again!");
 					continue;
 				}
@@ -91,14 +84,14 @@ public class Income extends Transaction {
 				else if ((currentMonth == 4 || currentMonth == 6
 						 || currentMonth == 9 || currentMonth == 11) 
 						 && currentDate > 30) {
-					this.date = 0;
+					this.setDate(maxDigitsOfDateAndMonth);
 					System.out.println("Invalid input! Try again!");
 					continue;
 				} 
 				// checks if month has to have 29 days(leap year)
 				else if (isLeapYear && currentMonth == 2) {
 					if (currentDate > 29) {
-						this.date = 0;
+						this.setDate(0);
 						System.out.println("Invalid input! Try again!");
 						continue;
 					}
@@ -106,7 +99,7 @@ public class Income extends Transaction {
 				// checks if month has to have 28 days(not a leap year)
 				else if (!isLeapYear && currentMonth == 2) {
 					if (currentDate > 28) {
-						this.date = 0;
+						this.setDate(0);
 						System.out.println("Invalid input! Try again!");
 						continue;
 					}
@@ -120,15 +113,16 @@ public class Income extends Transaction {
 				System.out.println("Please enter amount: ");
 				// gets amount and rounds and formats it 
 				// to have 2 digits after decimal point
-				this.amount = Math.round(Double.parseDouble(sc.nextLine()) * 100.0) / 100.0;
+				this.setAmount(Math.round(Double.parseDouble(sc.nextLine()) * 100.0) / 100.0);
 			} catch (Exception e) {
+				this.setAmount(0);
 				continue;
 			}
 		}
 		while (this.getDescription() == null) {
 			try {
 				System.out.println("Please describe the income: ");
-				this.description = sc.nextLine();
+				this.setDescription(sc.nextLine());
 			} catch (Exception e) {
 				continue;
 			}
@@ -137,36 +131,12 @@ public class Income extends Transaction {
 	
 	public void showThisTransaction() {
 		System.out.println("=====================\n"
-						+  "Type: " + getTypeOfTransaction().toUpperCase()
+						+  "Type: " + getTypeOfTransaction().toUpperCase() + '\n'
 						+  "Date: " + getDate() + "." + getMonth() + "." + getYear() + '\n'
 						+  "Amount: " + "$" + getAmount() + '\n'
 						+  "Description: "  + getDescription().toUpperCase() + '\n'
 						+  "====================="
 				);
-	}
-	
-	public int getDate() {
-		return this.date;
-	}
-	
-	public int getMonth() {
-		return this.month;
-	}
-	
-	public int getYear() {
-		return this.year;
-	}
-	
-	public double getAmount() {
-		return this.amount;
-	}
-	
-	public String getDescription() {
-		return this.description;
-	}
-	
-	public String getTypeOfTransaction() {
-		return this.typeOfTransaction;
 	}
 }
 
